@@ -26,3 +26,5 @@ energy-use-kg-of-oil-per-capita: https://data.worldbank.org/indicator/EG.USE.PCA
 per-capita-meat-consumption-by-type-kilograms-per-year: https://ourworldindata.org/grapher/per-capita-meat-consumption-by-type-kilograms-per-year
 
 co2-emissions-by-fuel-line.csv: https://ourworldindata.org/fossil-fuels
+
+Dataset on bitcoin carbon footprint and energy consumption: https://www.sciencedirect.com/science/article/pii/S2352340922004541
