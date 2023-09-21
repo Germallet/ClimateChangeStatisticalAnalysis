@@ -1,5 +1,20 @@
 # ClimateChangeStatisticalAnalysis
 
+## Requerimientos
+
+-   Python 3.10.x <
+
+## Setup del ambiente
+
+1. Pararse en el root del repositorio
+2. Ejecutar _python -m virtualenv .venv_
+3. Ir a la carpeta Scripts en el .venv
+4. Ejecutar activate.bat
+5. Volver al root
+6. Ejecutar _pip install -r requirements.txt_
+
+Para simplificar los pasos se puede ejecutar _setup.bat_
+
 ## Fuentes
 
 Annual_Surface_Temperature_Change: https://climatedata.imf.org/pages/climatechange-data
