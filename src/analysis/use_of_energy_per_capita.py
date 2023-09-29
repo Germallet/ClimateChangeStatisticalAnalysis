@@ -3,7 +3,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import os
 
-DATA_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../data/"
+DATA_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../data/"
+IMG_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../images/"
 
 file = "energy-use-kg-of-oil-per-capita.csv"
 
@@ -36,5 +37,7 @@ for index, row in df.iterrows():
     plt.xlabel('Year')
     plt.xticks(rotation=45)
     plt.ylabel('Energy use (kg of oil equivalent per capita)')
-    plt.title(f'Energy Use Per Capita in {country_name} Over Time')
-    plt.show()
+    title = f'Energy Use Per Capita in {country_name} Over Time'
+    plt.title(title)
+    plt.savefig(os.path.join(IMG_DIR, title))
+    plt.close()
