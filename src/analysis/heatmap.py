@@ -37,48 +37,22 @@ df.Longitude = df.Longitude.astype(float)
 co2_data_by_source = list(df.columns)[3:-2]
 
 for source in co2_data_by_source:
-    total_oil_emission = df[['Entity', 'Year', 'Latitude', 'Longitude', source]]\
-        .groupby(by=['Entity', 'Year', 'Latitude', 'Longitude'], as_index=False)[source].sum()
-        
-    total_oil_emission = total_oil_emission[total_oil_emission[source] > 0]
+    total_emissions = df.groupby(by=['Latitude', 'Longitude'])[source].sum().reset_index()
 
-    total_oil_emission['Year'] = pd.to_datetime(total_oil_emission['Year'], format='%Y')
-    total_oil_emission['Year'] = pd.DatetimeIndex(total_oil_emission['Year']).year
+    # Convert emission values to a scale suitable for the heatmap
+    max_emission = total_emissions[source].max()
+    total_emissions['ScaledEmission'] = total_emissions[source] / max_emission
 
-    print(total_oil_emission.head(1))
+    map = folium.Map(location=[0, 0], zoom_start=2)
 
-    # Sort the DataFrame by year
-    total_oil_emission.sort_values(by='Year', inplace=True)
+    heat_data = total_emissions[['Latitude', 'Longitude', 'ScaledEmission']].values.tolist()
 
-    # total_oil_emission.columns = ['Entity', source]
+    heat_map = HeatMap(heat_data,
+                       min_opacity=0.2,
+                       radius=15, blur=5,
+                       max_zoom=1)
 
-    map = folium.Map(location=[0, 0], zoom_start=2) 
-    heat_data = []
-
-    # Iterate through the DataFrame and add data to the list
-    # total_oil_emission[source] = 1
-    years = list(total_oil_emission['Year'].unique())
-
-    for year in years:
-        data = []
-        aux = total_oil_emission[total_oil_emission['Year'] == year].copy()
-        for index, row in aux.iterrows():
-            data.append([row['Latitude'], row['Longitude'], row[source]])
-        heat_data.append(data)
-
-    print(len(heat_data))
-    print(len(years))
-
-    heat_map = HeatMapWithTime(
-        heat_data,
-        index=years,
-        radius=15,
-        auto_play=False,
-        max_opacity=0.7,
-        scale_radius=True,
-        use_local_extrema=True,
-        overlay=True,
-    ).add_to(map)
+    heat_map.add_to(map)
 
     # Display the map
     map.save(os.path.join(HM_DIR, f'{source}.html'))
