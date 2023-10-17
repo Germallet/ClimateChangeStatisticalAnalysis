@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import os
 
 DATA_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../data/"
-HM_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../heatmaps/"
+HM_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../heatmaps/CO₂/"
 
 file = "co2-emissions-by-fuel-line.csv"
 
