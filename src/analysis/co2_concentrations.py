@@ -24,6 +24,7 @@ def annual_dataframe(region: str, from_year: Optional[int] = None, to_year: Opti
     monthly_df = monthly_dataframe(region)
     annual_df = monthly_df.resample("Y").mean(numeric_only=True)
 
+    # Date filter
     if from_year is not None:
         annual_df = annual_df[annual_df.index >= f"{from_year}-01"]
     if to_year is not None:
