@@ -7,10 +7,6 @@ from typing import Optional
 
 
 def dataframe() -> pd.DataFrame:
-    # Define the directory for saving images
-    IMG_DIR = os.path.abspath(os.path.join(
-        os.path.dirname(__file__), "../../images"))
-
     # Read the CSV file into a DataFrame
     dataframe = utils.read_csv("energy-use-kg-of-oil-per-capita.csv")
 
@@ -33,6 +29,9 @@ def dataframe() -> pd.DataFrame:
 
     # Concatenate the list of DataFrames into a single DataFrame
     combined_energy_data = pd.concat(country_data_frames)
+
+    # Filter rows where Value is not-null
+    combined_energy_data = combined_energy_data[pd.notna(combined_energy_data["Value"])]
 
     return combined_energy_data
 
