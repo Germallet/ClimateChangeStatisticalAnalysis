@@ -10,14 +10,15 @@ import utils
 # Read Dataframes
 energy_use = energy_use_per_capita.region_dataframe("World")["Value"] # Data from 1971 to 2014
 temperature_df = surface_temperature.dataframe("World")["Value"] # Data from 1961 to 2022
-co2_df = co2_concentrations.annual_dataframe("World")["Value"] # Data from 1750 to 2021
+co2_concentrations_df = co2_concentrations.annual_dataframe("World")["Value"] # Data from 1750 to 2021
+co2_emissions_df = co2_concentrations.annual_dataframe("World")["Value"] # Data from 1855 to 2021
 bitcoin = bitcoin.annual_dataframe()["BTCENEMAX"] # Data from 2010 to 2021
 meat_df = meat.annual_dataframe()["Total"] # Data from 1961 to 2020
 
 # Single Correlation Coeficient
 correlation_coeficient = np.corrcoef(
     utils.dataframe_year_filter(energy_use, 1971, 2014),
-    utils.dataframe_year_filter(co2_df, 1971, 2014)
+    utils.dataframe_year_filter(co2_concentrations_df, 1971, 2014)
 )[0][1]
 print(correlation_coeficient)
 
@@ -25,7 +26,8 @@ print(correlation_coeficient)
 correlation_matrix = pd.DataFrame({
     "Energy Use": energy_use,
     "Temperature": temperature_df,
-    "CO2 Concentrations": co2_df,
+    "CO2 Concentrations": co2_concentrations_df,
+    "CO2 Emnissions": co2_emissions_df,
     "Bitcoin Electricity Consumption": bitcoin,
     "Meat Consumption": meat_df
 }).corr()
@@ -39,12 +41,16 @@ def plot_cross_correlation(serie1: pd.DataFrame, serie2: pd.DataFrame, title1: s
     utils.plot(cross_correlation_axis, cross_correlation, "Lag", "Correlation",
             f"Cross Correlation - {title1} x {title2}", f"{title1} x {title2} Correlation")
 
-plot_cross_correlation(temperature_df, co2_df, "Surface temperature", "Atmospheric CO2")
+plot_cross_correlation(temperature_df, co2_concentrations_df, "Surface temperature", "Atmospheric CO2")
 plot_cross_correlation(temperature_df, energy_use, "Surface temperature", "Energy use")
-plot_cross_correlation(energy_use, co2_df, "Energy use", "Atmospheric CO2")
+plot_cross_correlation(energy_use, co2_concentrations_df, "Energy use", "Atmospheric CO2")
 plot_cross_correlation(temperature_df, bitcoin, "Surface temperature", "Bitcoin electricity consumption")
-plot_cross_correlation(co2_df, bitcoin, "Atmospheric CO2", "Bitcoin electricity consumption")
+plot_cross_correlation(co2_concentrations_df, bitcoin, "Atmospheric CO2", "Bitcoin electricity consumption")
 plot_cross_correlation(energy_use, bitcoin, "Energy use", "Bitcoin electricity consumption")
 plot_cross_correlation(temperature_df, meat_df, "Surface temperature", "Meat consumption")
-plot_cross_correlation(co2_df, meat_df, "Atmospheric CO2", "Meat consumption")
+plot_cross_correlation(co2_concentrations_df, meat_df, "Atmospheric CO2", "Meat consumption")
 plot_cross_correlation(energy_use, meat_df, "Energy use", "Meat consumption")
+plot_cross_correlation(co2_emissions_df, temperature_df, "CO2 Emissions","Surface temperature")
+plot_cross_correlation(co2_emissions_df, co2_concentrations_df, "CO2 Emissions","Atmospheric CO2")
+plot_cross_correlation(co2_emissions_df, energy_use, "CO2 Emissions","Energy use")
+plot_cross_correlation(co2_emissions_df, meat_df, "CO2 Emissions", "Meat consumption")
