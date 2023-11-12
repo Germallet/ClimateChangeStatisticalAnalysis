@@ -7,26 +7,56 @@ import co2_emissions
 import bitcoin
 import meat
 import utils
+from statsmodels.tsa.stattools import adfuller
+import statsmodels.api as sm
 
-from_year = 2010
-to_year = 2021
+
 
 # Read Dataframes
-energy_use = energy_use_per_capita.region_dataframe("World",from_year,to_year)["Value"] # Data from 1971 to 2014
-temperature_df = surface_temperature.dataframe("World",from_year,to_year)["Value"] # Data from 1961 to 2022
-co2_concentrations_df = co2_concentrations.annual_dataframe("World",from_year,to_year)["Value"] # Data from 1750 to 2021
-co2_emissions_df = co2_emissions.dataframe("World","Total",from_year,to_year)["Value"] # Data from 1855 to 2021
-bitcoin = bitcoin.annual_dataframe(from_year=from_year,to_year=to_year)["BTCENEMAX"] # Data from 2010 to 2021
-meat_df = meat.annual_dataframe(from_year=from_year,to_year=to_year)["Total"] # Data from 1961 to 2020
+energy_use = energy_use_per_capita.region_dataframe("World",1971,2014)["Value"] # Data from 1971 to 2014
+temperature_df = surface_temperature.dataframe("World",1961,2021)["Value"] # Data from 1961 to 2022
+co2_concentrations_df = co2_concentrations.annual_dataframe("World",1961,2021)["Value"] # Data from 1750 to 2021
+co2_emissions_df = co2_emissions.dataframe("World","Total",1961,2021)["Value"] # Data from 1855 to 2021
+bitcoin = bitcoin.annual_dataframe(from_year=2010,to_year=2021)["BTCENEMAX"] # Data from 2010 to 2021
+meat_df = meat.annual_dataframe(from_year=1961,to_year=2020)["Total"] # Data from 1961 to 2020
 
 # Single Correlation Coeficient
 correlation_coeficient = np.corrcoef(
     utils.dataframe_year_filter(energy_use, 1971, 2014),
-    utils.dataframe_year_filter(co2_concentrations_df, 1971, 2014)
+    utils.dataframe_year_filter(temperature_df, 1971, 2014)
 )[0][1]
-print("Correlation Coeficient ENERGY VS CO2 Concentrations")
+print("Correlation Coeficient ENERGY VS Temperature")
 print(correlation_coeficient)
 
+correlation_coeficient = np.corrcoef(
+    utils.dataframe_year_filter(co2_concentrations_df, 1961, 2021),
+    utils.dataframe_year_filter(temperature_df, 1961, 2021)
+)[0][1]
+print("Correlation Coeficient CO2 concentrations VS Temperature")
+print(correlation_coeficient)
+
+correlation_coeficient = np.corrcoef(
+    utils.dataframe_year_filter(co2_emissions_df, 1971, 2021),
+    utils.dataframe_year_filter(temperature_df, 1971, 2021)
+)[0][1]
+print("Correlation Coeficient CO2 Emissions VS Temperature")
+print(correlation_coeficient)
+
+correlation_coeficient = np.corrcoef(
+    utils.dataframe_year_filter(meat_df, 1961, 2020),
+    utils.dataframe_year_filter(temperature_df, 1961, 2020)
+)[0][1]
+print("Correlation Coeficient Meat VS Temperature")
+print(correlation_coeficient)
+
+# print(adfuller(temperature_df.diff().dropna().diff().dropna()))
+# print(adfuller(energy_use.diff().dropna().diff().dropna()))
+# print(adfuller(co2_concentrations_df.diff().dropna().diff().dropna()))
+# print(adfuller(co2_emissions_df.diff().dropna().diff().dropna()))
+# print(adfuller(meat_df.diff().dropna().diff().dropna()))
+# print(energy_use.index)
+
+exit(0)
 
 
 # Correlation Matrix
@@ -41,7 +71,6 @@ correlation_matrix = pd.DataFrame({
 print(correlation_matrix)
 
 
-exit(0)
 
 # Cross-correlation
 def plot_cross_correlation(serie1: pd.DataFrame, serie2: pd.DataFrame, title1: str, title2: str):
