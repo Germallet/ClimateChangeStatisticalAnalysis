@@ -9,7 +9,7 @@ def dataframe(from_year: Optional[int] = None, to_year: Optional[int] = None) ->
     df = utils.read_csv("Monthly_Global_Surface_Temperature_Change.csv")
 
     # Read year columns and convert to datetime
-    years = pd.to_datetime(df["Year"], format="%Y%M")
+    years = pd.to_datetime(df["Year"], format="%Y%m")
 
     # Extract values and cast to float
     values = df["Anomaly"].astype(float)
