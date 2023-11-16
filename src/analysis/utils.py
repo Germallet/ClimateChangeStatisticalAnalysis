@@ -1,3 +1,4 @@
+import matplotlib as mp
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -36,11 +37,23 @@ def matching_period_dataframes(dataframe1: pd.DataFrame, dataframe2: pd.DataFram
     return dataframe_date_filter(dataframe1, from_date, to_date), dataframe_date_filter(dataframe2, from_date, to_date)
 
 
+def set_fig_style(fig):
+    font_size = 20
+    font_color = "black"
+    mp.rcParams['ytick.color'] = font_color
+    mp.rcParams['xtick.color'] = font_color
+    mp.rcParams['axes.labelcolor'] = font_color
+    mp.rcParams['axes.edgecolor'] = font_color
+    mp.rcParams['font.size'] = font_size
+    mp.rcParams['lines.linewidth'] = font_size / 4.
+    plt.xticks(rotation=45)
+    
+
 def plot(x_values, y_values, x_label, y_label, title, filename, periods=10):
-    fig = plt.figure(figsize=(12, 8))
+    fig = plt.figure(figsize=(12, 10))
+    set_fig_style(fig)
     plt.plot(x_values, y_values)
     plt.xlabel(x_label)
-    plt.xticks(rotation=45)
     plt.ylabel(y_label)
     plt.title(title)
     if isinstance(x_values, np.ndarray):
@@ -49,12 +62,12 @@ def plot(x_values, y_values, x_label, y_label, title, filename, periods=10):
         plt.xticks(pd.date_range(start=x_values.min(),
                    end=x_values.max(), periods=periods))
     else:
-        plt.xticks(np.arange(0, x_values.size,
+        plt.xticks(np.arange(x_values.min(), x_values.max(),
                    np.floor(x_values.size/periods)))
     plt.xlim(x_values.min(), x_values.max())
     plt.grid(True)
     fig.canvas.manager.set_window_title(title)
-    plt.savefig(os.path.join(IMG_DIR, f"{filename}.png"))
+    plt.savefig(os.path.join(IMG_DIR, f"{filename}.png"), transparent=True)
     plt.show()
 
 

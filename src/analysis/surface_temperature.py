@@ -19,14 +19,15 @@ def dataframe(region: str, from_year: Optional[int] = None, to_year: Optional[in
 
     # Date filter
     if from_year is not None:
-        df = df[df.index >= f"{from_year}-01"]
+        df = df[df.index >= from_year]
     if to_year is not None:
-        df = df[df.index < f"{to_year}-01"]
+        df = df[df.index < to_year]
 
     return df
 
 
 if __name__ == "__main__":
     df = dataframe("World")
-    utils.plot_all(df.index, df["Value"], "Date", "Degree Celsius",
-                   "Surface Temperature Change", "Surface Temperature Change")
+    df.index = df.index.year
+    utils.plot_all(df.index, df["Value"], "Año", "Variación de temperatura (Cº)",
+                   "Variación de temperatura mundial", "Surface Temperature Change", df.size/3)
