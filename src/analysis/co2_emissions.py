@@ -12,6 +12,7 @@ def dataframe(region: str, value: str = "Total", from_year: Optional[int] = None
     
     # Calculate Total
     df["Total"] = df["Annual CO₂ emissions from oil"] + df["Annual CO₂ emissions from coal"] + df["Annual CO₂ emissions from cement"] + df["Annual CO₂ emissions from gas"] + df["Annual CO₂ emissions from flaring"] + df["Annual CO₂ emissions from other industry"]
+    df["Total"] = df["Total"]/1000000
 
     # Rename columns and read value as float
     df.rename(columns={"Year": "Date", value: "Value"}, inplace=True)
@@ -34,5 +35,5 @@ def dataframe(region: str, value: str = "Total", from_year: Optional[int] = None
 
 if __name__ == "__main__":
     df = dataframe("World")
-    utils.plot_all(df.index, df["Value"], "Date", "?",
-                   "Annual CO₂ emissions", "Annual CO₂ emissions")
+    utils.plot_all(df.index.year, df["Value"], "Año", "Millones de toneladas",
+                   "Emisiones de CO2", "data/CO₂ emissions")

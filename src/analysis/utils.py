@@ -1,4 +1,5 @@
 import matplotlib as mp
+import matplotlib.dates as mdates
 import matplotlib.pyplot as plt
 import numpy as np
 import os
@@ -50,7 +51,7 @@ def set_fig_style(fig):
     
 
 def plot(x_values, y_values, x_label, y_label, title, filename, periods=10):
-    fig = plt.figure(figsize=(12, 10))
+    fig = plt.figure(figsize=(12, 14))
     set_fig_style(fig)
     plt.plot(x_values, y_values)
     plt.xlabel(x_label)
@@ -59,6 +60,7 @@ def plot(x_values, y_values, x_label, y_label, title, filename, periods=10):
     if isinstance(x_values, np.ndarray):
         plt.xticks(np.linspace(x_values.min(), x_values.max(), periods))
     elif isinstance(x_values, pd.DatetimeIndex):
+        plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%d/%Y'))
         plt.xticks(pd.date_range(start=x_values.min(),
                    end=x_values.max(), periods=periods))
     else:

@@ -57,4 +57,4 @@ if __name__ == "__main__":
     # Annual Moving Average
     df = df.resample("Y").mean(numeric_only=True)
     # Plot
-    utils.plot_all(df.index.year, df["Value"], "Fecha", "Variación de temperatura (Cº)", "Variación de temperatura mundial", "Surface Temperature Change", df.size / 12)
+    utils.plot_all(df.index.year, df["Value"], "Fecha", "Variación de temperatura (Cº)", "Variación de temperatura mundial", "data/Surface Temperature Change", df.size / 12)

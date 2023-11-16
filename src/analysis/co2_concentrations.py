@@ -34,10 +34,10 @@ def annual_dataframe(region: str, from_year: Optional[int] = None, to_year: Opti
 
 
 if __name__ == "__main__":
-    monthly_df = monthly_dataframe("World")
     annual_df = annual_dataframe("World")
-
-    utils.plot_all(monthly_df.index, monthly_df["Value"], "Date", "CO₂ ppm",
-                   "Monthly World CO₂ Concentrations", "Monthly World CO2 Concentrations")
-    utils.plot_all(annual_df.index, annual_df["Value"], "Date", "CO₂ ppm",
-                   "Annual World CO₂ Concentrations", "Annual World CO2 Concentrations")
+    utils.plot_all(annual_df.index.year, annual_df["Value"], "Año", "CO₂ ppm",
+                   "Concentración Mundial de CO2", "data/Annual World CO2 Concentrations", 11)
+    
+    monthly_df = monthly_dataframe("World")
+    utils.plot_all(monthly_df.index, monthly_df["Value"], "Año", "CO₂ ppm",
+                   "Concentración Mundial de CO2", "data/Monthly World CO2 Concentrations", 11)

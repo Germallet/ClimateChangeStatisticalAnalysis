@@ -27,7 +27,7 @@ Para simplificar los pasos se puede ejecutar _setup.bat_
 
 5. per-capita-meat-consumption-by-type-kilograms-per-year: https://ourworldindata.org/grapher/per-capita-meat-consumption-by-type-kilograms-per-year
 
-6. co2-emissions-by-fuel-line.csv: https://ourworldindata.org/fossil-fuels
+6. co2-emissions-by-fuel-line.csv: https://ourworldindata.org/grapher/co2-emissions-by-fuel-line
 
 7. Dataset on bitcoin carbon footprint and energy consumption: https://www.sciencedirect.com/science/article/pii/S2352340922004541
 
