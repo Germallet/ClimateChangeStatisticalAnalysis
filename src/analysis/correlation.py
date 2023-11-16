@@ -8,7 +8,8 @@ import bitcoin
 import meat
 import utils
 from statsmodels.tsa.stattools import adfuller
-import statsmodels.api as sm
+from statsmodels.tsa.stattools import kpss
+# import statsmodels.api as sm
 
 
 
@@ -49,12 +50,81 @@ correlation_coeficient = np.corrcoef(
 print("Correlation Coeficient Meat VS Temperature")
 print(correlation_coeficient)
 
-# print(adfuller(temperature_df.diff().dropna().diff().dropna()))
-# print(adfuller(energy_use.diff().dropna().diff().dropna()))
-# print(adfuller(co2_concentrations_df.diff().dropna().diff().dropna()))
-# print(adfuller(co2_emissions_df.diff().dropna().diff().dropna()))
-# print(adfuller(meat_df.diff().dropna().diff().dropna()))
-# print(energy_use.index)
+window_size = 5  # Adjust the window size as needed
+
+aux = temperature_df.diff().rolling(window=window_size, min_periods=0).mean()
+print(aux)
+temperature_df = temperature_df.diff().fillna(aux)
+temperature_df.fillna(method="backfill", inplace=True)
+aux = energy_use.diff().rolling(window=window_size, min_periods=0).mean()
+energy_use = energy_use.diff().fillna(aux)
+energy_use.fillna(method="backfill", inplace=True)
+aux = co2_emissions_df.diff().rolling(window=window_size, min_periods=0).mean()
+co2_emissions_df = co2_emissions_df.diff().fillna(aux)
+co2_emissions_df.fillna(method="backfill", inplace=True)
+aux = meat_df.diff().rolling(window=window_size, min_periods=0).mean()
+meat_df = meat_df.diff().fillna(aux)
+meat_df.fillna(method="backfill", inplace=True)
+
+print("Temperature DF")
+print("ADF")
+print(adfuller(temperature_df)[1])
+print("KPSS")
+print(kpss(temperature_df)[1])
+print("Energy Use DF")
+print("ADF")
+print(adfuller(energy_use)[1])
+print("KPSS")
+print(kpss(energy_use)[1])
+print("C02 Concentrations DF")
+print("ADF")
+print(adfuller(co2_concentrations_df.diff().dropna())[1])
+print("KPSS")
+print(kpss(co2_concentrations_df.diff().dropna())[1])
+print("C02 Emissions DF")
+print("ADF")
+print(adfuller(co2_emissions_df)[1])
+print("KPSS")
+print(kpss(co2_emissions_df)[1])
+print("Meat DF")
+print("ADF")
+print(adfuller(meat_df)[1])
+print("KPSS")
+print(kpss(meat_df)[1])
+print("temp", energy_use.shape)
+print("eng", energy_use.shape)
+print("co2_emissions_df", co2_emissions_df.shape)
+print("meat_df", meat_df.shape)
+
+# Single Correlation Coeficient
+correlation_coeficient = np.corrcoef(
+    utils.dataframe_year_filter(energy_use, 1971, 2014),
+    utils.dataframe_year_filter(temperature_df, 1971, 2014)
+)[0][1]
+print("Correlation Coeficient ENERGY VS Temperature")
+print(correlation_coeficient)
+
+correlation_coeficient = np.corrcoef(
+    utils.dataframe_year_filter(co2_concentrations_df, 1961, 2021),
+    utils.dataframe_year_filter(temperature_df, 1961, 2021)
+)[0][1]
+print("Correlation Coeficient CO2 concentrations VS Temperature")
+print(correlation_coeficient)
+
+correlation_coeficient = np.corrcoef(
+    utils.dataframe_year_filter(co2_emissions_df, 1971, 2021),
+    utils.dataframe_year_filter(temperature_df, 1971, 2021)
+)[0][1]
+print("Correlation Coeficient CO2 Emissions VS Temperature")
+print(correlation_coeficient)
+
+correlation_coeficient = np.corrcoef(
+    utils.dataframe_year_filter(meat_df, 1961, 2020),
+    utils.dataframe_year_filter(temperature_df, 1961, 2020)
+)[0][1]
+print("Correlation Coeficient Meat VS Temperature")
+print(correlation_coeficient)
+
 
 exit(0)
 
