@@ -9,9 +9,13 @@ import meat
 import utils
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.stattools import kpss
+import matplotlib.pyplot as plt
+from statsmodels.tsa.arima.model import ARIMA
+from datetime import timedelta
+import os
 # import statsmodels.api as sm
 
-
+IMG_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../images/forecasting/"
 
 # Read Dataframes
 energy_use = energy_use_per_capita.region_dataframe("World",1971,2014)["Value"] # Data from 1971 to 2014
@@ -124,6 +128,40 @@ correlation_coeficient = np.corrcoef(
 )[0][1]
 print("Correlation Coeficient Meat VS Temperature")
 print(correlation_coeficient)
+
+ts = temperature_df
+
+# Plot the time series data
+plt.figure(figsize=(10, 6))
+plt.plot(ts)
+plt.title('Generated Time Series Data')
+plt.savefig(os.path.join(IMG_DIR, "Temperature Time Series.png"))
+plt.clf()
+
+# Split the data into training and testing sets
+train_size = int(len(ts) * 0.8)
+train, test = ts[:train_size + 1], ts[train_size:]
+
+# Fit an ARIMA model
+order = (3, 0, 5)  # Replace with appropriate order based on your data and analysis
+model = ARIMA(train, order=order)
+fit_model = model.fit()
+
+# Forecast future values
+print("Test Len", len(test))
+forecast_steps = len(test)
+forecast = fit_model.get_forecast(steps=forecast_steps)
+forecast_index = pd.date_range(start=train.index[-2], periods=forecast_steps, freq='Y')
+
+# Plot the training data, testing data, and the forecast
+plt.figure(figsize=(12, 8))
+plt.plot(train, label='Training Data')
+plt.plot(test, label='Testing Data')
+plt.plot(forecast_index, forecast.predicted_mean, color='red', label='Forecast')
+plt.title('ARIMA Model Forecasting')
+plt.legend()
+plt.savefig(os.path.join(IMG_DIR, "Temperature Forecasting.png"))
+plt.clf()
 
 
 exit(0)
