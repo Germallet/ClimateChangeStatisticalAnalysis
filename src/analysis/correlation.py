@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import energy_use_per_capita
-import surface_temperature
+import surface_temperature_change
 import co2_concentrations
 import co2_emissions
 import bitcoin
@@ -19,8 +19,8 @@ IMG_DIR = os.path.dirname(os.path.realpath(__file__)) + "/../../images/forecasti
 
 # Read Dataframes
 energy_use = energy_use_per_capita.region_dataframe("World",1971,2014)["Value"] # Data from 1971 to 2014
-temperature_df = surface_temperature.dataframe("World",1961,2021)["Value"] # Data from 1961 to 2022
-co2_concentrations_df = co2_concentrations.annual_dataframe("World",1961,2021)["Value"] # Data from 1750 to 2021
+temperature_df = surface_temperature_change.annual_dataframe("World",1961,2021)["Value"] # Data from 1961 to 2022
+co2_concentrations_df = co2_concentrations.annual_dataframe("World",1961,2021)["Value"] # Data from 1959 to 2023
 co2_emissions_df = co2_emissions.dataframe("World","Total",1961,2021)["Value"] # Data from 1855 to 2021
 bitcoin = bitcoin.annual_dataframe(from_year=2010,to_year=2021)["BTCENEMAX"] # Data from 2010 to 2021
 meat_df = meat.annual_dataframe(from_year=1961,to_year=2020)["Total"] # Data from 1961 to 2020

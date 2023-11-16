@@ -19,15 +19,17 @@ Para simplificar los pasos se puede ejecutar _setup.bat_
 
 1. Annual_Surface_Temperature_Change: https://climatedata.imf.org/pages/climatechange-data
 
-2. Atmospheric_CO₂_Concentrations: https://climatedata.imf.org/pages/climatechange-data
+2. Monthly_Global_Surface_Temperature_Change: https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/global/time-series
 
-3. energy-use-kg-of-oil-per-capita: https://data.worldbank.org/indicator/EG.USE.PCAP.KG.OE?end=2015&start=2015&type=shaded&view=map&year=1967
+3. Atmospheric_CO₂_Concentrations: https://climatedata.imf.org/pages/climatechange-data
 
-4. per-capita-meat-consumption-by-type-kilograms-per-year: https://ourworldindata.org/grapher/per-capita-meat-consumption-by-type-kilograms-per-year
+4. energy-use-kg-of-oil-per-capita: https://data.worldbank.org/indicator/EG.USE.PCAP.KG.OE?end=2015&start=2015&type=shaded&view=map&year=1967
 
-5. co2-emissions-by-fuel-line.csv: https://ourworldindata.org/fossil-fuels
+5. per-capita-meat-consumption-by-type-kilograms-per-year: https://ourworldindata.org/grapher/per-capita-meat-consumption-by-type-kilograms-per-year
 
-6. Dataset on bitcoin carbon footprint and energy consumption: https://www.sciencedirect.com/science/article/pii/S2352340922004541
+6. co2-emissions-by-fuel-line.csv: https://ourworldindata.org/fossil-fuels
+
+7. Dataset on bitcoin carbon footprint and energy consumption: https://www.sciencedirect.com/science/article/pii/S2352340922004541
 
 ## Analisis
 
