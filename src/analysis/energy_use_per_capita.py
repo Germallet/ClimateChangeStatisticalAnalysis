@@ -51,6 +51,9 @@ def region_dataframe(region: str, from_year: Optional[int] = None, to_year: Opti
 
 if __name__ == "__main__":
     # Iterate through each region in the DataFrame
-    for region, row in region_dataframe("World", 1961, 2022).groupby("Region"):
-        utils.plot_all(row.index, row["Value"], "Year", "Energy use (kg of oil equivalent per capita)",
-                       f"Energy use per capita in {region}", f"Energy use per capita in {region}")
+    # for region, row in region_dataframe("World", 1961, 2022).groupby("Region"):
+    #     utils.plot_all(row.index, row["Value"], "Year", "Energy use (kg of oil equivalent per capita)",
+    #                    f"Energy use per capita in {region}", f"Energy use per capita in {region}")
+    df = region_dataframe("World", 1961, 2022)
+    utils.plot_all(df.index.year, df["Value"], "Año", "Uso de energía (equivalente de kg de petróleo per cápita)",
+        f"Uso de energía per cápita", f"data/Energy use")
